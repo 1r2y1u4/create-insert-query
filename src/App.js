@@ -16,7 +16,7 @@ function App() {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    const generatedSql = generateInsertSQL(textAreaValue, tableName); // テーブル名を渡す
+    const generatedSql = generateBulkInsertSQL(textAreaValue, tableName); // テーブル名を渡す
     setSqlQuery(generatedSql);
   };
 
@@ -56,7 +56,7 @@ function App() {
   );
 }
 
-function generateInsertSQL(data, tableName) {
+function generateBulkInsertSQL(data, tableName) {
   const rows = data.trim().split('\n');
   if (rows.length === 0 || !tableName) {
     return '';
@@ -68,9 +68,9 @@ function generateInsertSQL(data, tableName) {
     return { name, type };
   });
 
-  // 値の行を処理
+  // 値の行を処理し、適切な形式に変換
   const values = rows.slice(1).map(row =>
-    row.split('\t').map((value, index) => {
+    `(${row.split('\t').map((value, index) => {
       const type = columnDefinitions[index].type;
       switch (type) {
         case 'int':
@@ -80,17 +80,14 @@ function generateInsertSQL(data, tableName) {
         default:
           return `'${value.replace(/'/g, "''")}'`; // 文字列はシングルクォートで囲む
       }
-    }).join(', ')
-  );
+    }).join(', ')})`
+  ).join(',\n');
 
-  // SQLクエリを生成
+  // カラム名を抽出
   const columns = columnDefinitions.map(def => def.name).join(', ');
-  const queries = values.map(value =>
-    `INSERT INTO ${tableName} (${columns}) VALUES (${value});`
-  ).join('\n');
 
-  return queries;
+  // 一つのINSERT文で全ての値を挿入
+  return `INSERT INTO ${tableName} (${columns}) VALUES\n${values};`;
 }
-
 
 export default App;
