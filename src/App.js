@@ -35,6 +35,19 @@ function App() {
 
   return (
     <div className="container">
+      <h1 className="title">INSERT文 ジェネレーター</h1>
+      <p className="description">
+        バルク形式のINSERT文を作成するためのアプリケーションです。<br></br>
+        スプレッドシートなどの表で作成したデータをペーストすることで、INSERT文の作成ができます。
+      </p>
+      <p>
+        1行目に選択した部分がカラム名となり、2行目以降はレコードとして認識されます。<br></br>
+        カラム名の末尾に[:int]もしくは[:bool]をつけると、要素に''がつかなくなります。（下記画像参照）
+      </p>
+      <div className="images-container">
+        <img className='table-img' src='/table.png' alt='table'></img>
+        <img className='result-img' src='/result.png' alt='result'></img>
+      </div>
       <form onSubmit={handleFormSubmit}>
         <div className="formControl">
           <label className="label">

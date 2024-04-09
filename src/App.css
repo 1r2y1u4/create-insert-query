@@ -49,3 +49,28 @@
   border: 1px solid #ccc;
   border-radius: 4px;
 }
+
+.title {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.description {
+  margin-bottom: 20px;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.images-container {
+  margin-bottom: 20px;
+  display: flex;
+}
+
+.table-img,
+.result-img {
+  max-width: 50%; /* 画像の最大幅。ビューポートに応じて調整可能 */
+  border: 2px solid #ccc; /* 枠線のスタイル */
+  border-radius: 8px; /* 枠の角を丸く */
+  margin: 10px auto; /* 上下のマージンと自動マージンで中央揃え */
+  display: block; /* ブロック要素として扱い、margin autoが機能するように */
+}
